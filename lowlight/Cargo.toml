@@ -1,0 +1,13 @@
+[package]
+name = "lowlight"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+slint = "1.8.0"
+rfd = "0.15.0"
+tokio = { version = "1.41.0", features = ["full"] }
+lowlight-lib = { path = "../lowlight-lib" }
+pico-args = "0.5.0"
+[build-dependencies]
+slint-build = "1.8.0"

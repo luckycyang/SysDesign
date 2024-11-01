@@ -1,0 +1,14 @@
+[package]
+name = "lowlight-lib"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+burn = { version = "0.15.0", features = [ "wgpu"] }
+image = "0.25.4"
+slint = "1.8.0"
+
+
+[build-dependencies]
+burn-import = "0.15.0"
+

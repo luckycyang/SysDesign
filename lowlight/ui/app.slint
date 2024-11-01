@@ -1,0 +1,139 @@
+import { Button, VerticalBox, HorizontalBox } from "std-widgets.slint";
+
+component StatusIndicator {
+    in property <bool> is-ok: false;
+    in property <string> ok-text: "Ok";
+    in property <string> not-ok-text: "No";
+    in property <color> ok-color: #00ff00;
+    in property <color> not-ok-color: #ff0000;
+
+    width: 100px;
+    height: 32px;
+
+    Rectangle {
+        width: 100%;
+        height: 100%;
+        background: is-ok ? ok-color : not-ok-color;
+        border-radius: 5px;
+
+        Text {
+            text: is-ok ? ok-text : not-ok-text;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 750;
+            horizontal-alignment: center;
+            vertical-alignment: center;
+        }
+    }
+}
+
+export component App inherits Window {
+    in-out property <bool> top: true;
+    callback select_image();
+    callback select_model();
+    in property <image> input_image;
+    in-out property <image> output_image;
+    property <color> backgroundColor: red;
+    property <image> backgroundImage: @image-url("/home/dingduck/tmp/nord_theme_wallpaper_by_thisahami_df78ber-pre.jpg");
+    in-out property <bool> modelVaild: false ;
+    Image {
+        width: parent.width;
+        height: parent.height;
+        source: root.backgroundImage;
+    }
+    Rectangle {
+        x: root.top ? 0px : -self.width;
+        modelBtn := Button {
+            width: 72px;
+            height: 32px;
+            x: 10px;
+            y: 10px;
+            text: "Model";
+            clicked => {
+                root.select_model();
+            }
+        }
+        StatusIndicator {
+            x: modelBtn.x + modelBtn.width + 2px;
+            y: modelBtn.y;
+            is-ok: root.modelVaild;
+        }
+        VerticalBox {
+            alignment: center;
+            padding: 20px;
+
+            Rectangle {
+                background: #DFDFDF;
+                height: 200px;
+                VerticalBox {
+                    alignment: center;
+                    Text {
+                        text: "低照度图像增强";
+                        font-size: 24px;
+                        font-weight: 900;
+                        horizontal-alignment: center;
+                    }
+
+                    Text {
+                        text: "可将低照度图像增强 放大细节和亮度";
+                        font-size: 16px;
+                        horizontal-alignment: center;
+                    }
+
+                    HorizontalBox {
+                        alignment: center;
+                        Button {
+                            text: "选择文件";
+                            width: 200px;
+                            height: 40px;
+                            clicked => {
+                                root.select_image();
+                            }
+                        }
+                    }
+
+                    Text {
+                        color: black;
+                        text: "模型的运行默认使用GPU,4G显存建议最大图像尺寸为1920x1080px, 否则容易炸显存";
+                        font-size: 12px;
+                        horizontal-alignment: center;
+                    }
+                }
+            }
+        }
+
+        animate x {
+            duration: 200ms;
+            easing: ease-in;
+        }
+    }
+
+    Rectangle {
+        x: root.top ? self.width : 0px;
+        VerticalBox {
+            Button {
+                height: 36px;
+                width: 54px;
+                text: "Back";
+                clicked => {
+                    root.top = !root.top;
+                }
+            }
+
+            HorizontalBox {
+                Image {
+                    source: root.input_image;
+                }
+
+                Image {
+                    source: root.output_image;
+                }
+            }
+        }
+
+        animate x {
+            duration: 200ms;
+            easing: ease-in;
+        }
+    }
+}
