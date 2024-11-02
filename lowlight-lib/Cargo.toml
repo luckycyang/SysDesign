@@ -5,7 +5,9 @@ edition = "2021"
 
 [dependencies]
 burn = { version = "0.15.0", features = [ "wgpu"] }
+dirs = "5.0.1"
 image = "0.25.4"
+rusqlite = "0.32.1"
 slint = "1.8.0"
 
 

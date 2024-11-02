@@ -3805,7 +3805,9 @@ version = "0.1.0"
 dependencies = [
  "burn",
  "burn-import",
+ "dirs",
  "image 0.25.4",
+ "rusqlite",
  "slint",
 ]
 

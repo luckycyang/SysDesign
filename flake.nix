@@ -42,6 +42,7 @@
               buildInputs = [
                 pkg-config
                 openssl
+                sqlite
                 rustpkg
               ];
             };
