@@ -19,6 +19,7 @@
         overlays = [ (import rust-overlay) ];
         pkgs = import nixpkgs {
           inherit system overlays;
+          config.allowUnfree = true;
         };
         rustpkg = pkgs.rust-bin.selectLatestNightlyWith (toolchain:
           toolchain.default.override {
@@ -29,9 +30,13 @@
       with pkgs; {
         devShells = {
           default =
-            mkShell {
-              name = "slint-dev";
-              LD_LIBRARY_PATH = "$LD_LIBRARY_PATH:${with pkgs;
+            mkShell.override
+              {
+                stdenv = rocmPackages.llvm.rocmClangStdenv;
+              }
+              {
+                name = "slint-dev";
+                LD_LIBRARY_PATH = "$LD_LIBRARY_PATH:${with pkgs;
                 lib.makeLibraryPath [
                   wayland
                   libxkbcommon
@@ -39,13 +44,23 @@
                   vulkan-loader 
                   libGL
                 ]}";
-              buildInputs = [
-                pkg-config
-                openssl
-                sqlite
-                rustpkg
-              ];
-            };
+                LIBCLANG_PATH = "${pkgs.rocmPackages.llvm.clang}/resource-root/lib";
+                buildInputs = [
+                  pkg-config
+                  openssl
+                  sqlite
+                  cudatoolkit
+                  libclang
+                  rocmPackages.llvm.llvm
+                  rustpkg
+                  (opencv.override {
+                    enableCuda = true;
+                    enableGtk2 = true;
+                    enableGtk3 = true;
+                    enableVtk = true;
+                  })
+                ];
+              };
         };
       }
     );
