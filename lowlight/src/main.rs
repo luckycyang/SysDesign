@@ -1,15 +1,17 @@
 slint::include_modules!();
 use lowlight_lib::lowlight::LowLight;
-use slint::Image;
+use opencv::core::Mat;
+use opencv::highgui;
+use slint::{ComponentHandle, Image};
 use std::cell::RefCell;
 use std::rc::Rc;
 
 static IMAGE_TYPES: &[&str] = &["png", "jpg"];
 
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     let ui = App::new()?;
     let lowlight = Rc::new(RefCell::new(LowLight::new()));
+    let mut camera = lowlight_lib::capture::Camara::default();
 
     // select image
     ui.on_select_image({
@@ -56,6 +58,22 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                     let mut lowlight = lowlight.borrow_mut();
                     lowlight.load_model(&path).unwrap();
                     ui.set_modelVaild(true);
+                }
+            }
+        }
+    });
+
+    ui.on_paly({
+        let ui_handle = ui.as_weak();
+        let lowlight = Rc::clone(&lowlight);
+        move || {
+            let ui = ui_handle.unwrap();
+            let mut lowlight = lowlight.borrow_mut();
+            if lowlight.load_frame(&mut camera).is_ok() {
+                lowlight.inference().unwrap();
+                if let Ok(img) = lowlight.get_image() {
+                    ui.set_playing(true);
+                    ui.set_frame(img);
                 }
             }
         }

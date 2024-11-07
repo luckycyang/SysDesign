@@ -1,0 +1,10 @@
+import { Button, VerticalBox } from "std-widgets.slint";
+
+export component App inherits Window {
+    in-out property <image> frame;
+    width: 640px;
+    height: 480px;
+    Image {
+        source: root.frame;
+    }
+}

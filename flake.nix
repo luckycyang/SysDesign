@@ -50,7 +50,6 @@
                   openssl
                   sqlite
                   cudatoolkit
-                  libclang
                   rocmPackages.llvm.llvm
                   rustpkg
                   (opencv.override {

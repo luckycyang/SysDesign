@@ -7,6 +7,8 @@ edition = "2021"
 burn = { version = "0.15.0", features = [ "wgpu"] }
 dirs = "5.0.1"
 image = "0.25.4"
+opencv = { version = "0.93.3", features = ["rgb"] }
+rgb = "0.8.50"
 rusqlite = "0.32.1"
 slint = "1.8.0"
 

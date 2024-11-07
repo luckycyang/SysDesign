@@ -7,6 +7,7 @@ use burn::{
 
 pub type Backend = Wgpu<f32, i32>;
 
+use crate::capture::Camara;
 use crate::model::Model;
 
 pub fn build_and_load_model(
@@ -46,6 +47,31 @@ impl LowLight {
     pub fn load_model(&mut self, path: &std::path::Path) -> Result<(), Box<dyn std::error::Error>> {
         let model = build_and_load_model(path, self.get_device())?;
         self.model = Some(model);
+        Ok(())
+    }
+
+    pub fn load_frame(&mut self, camera: &mut Camara) -> Result<(), Box<dyn std::error::Error>> {
+        let (data, width, height) = camera.raw_data()?;
+        self.from_raw(data, width, height)?;
+        Ok(())
+    }
+
+    pub fn from_raw(
+        &mut self,
+        data: Vec<u8>,
+        width: usize,
+        height: usize,
+    ) -> Result<(), Box<dyn std::error::Error>> {
+        let data = data
+            .iter()
+            .map(|&x| (x as f32 / 255.0) as f32)
+            .collect::<Vec<f32>>();
+        let tensor = Tensor::<Backend, 3>::from_data(
+            TensorData::new(data, [width, height, 3]),
+            self.get_device(),
+        );
+        self.input = Some(tensor.permute([2, 0, 1]).unsqueeze::<4>());
+
         Ok(())
     }
 

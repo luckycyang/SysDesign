@@ -1,5 +1,6 @@
 pub mod lowlight;
 pub mod model;
+pub mod capture;
 
 pub fn add(left: u64, right: u64) -> u64 {
     left + right

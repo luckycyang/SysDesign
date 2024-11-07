@@ -4,4 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-opencv = "0.93.3"
+image = "0.25.5"
+opencv = { version = "0.93.3", features = ["rgb"] }
+lowlight-lib = { path = "../lowlight-lib" }
+rgb = "0.8.50"

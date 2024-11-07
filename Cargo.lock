@@ -310,6 +310,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "async-compat"
+version = "0.2.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7bab94bde396a3f7b4962e396fdad640e241ed797d4d8d77fc8c237d14c58fc0"
+dependencies = [
+ "futures-core",
+ "futures-io",
+ "once_cell",
+ "pin-project-lite",
+ "tokio",
+]
+
+[[package]]
 name = "async-executor"
 version = "1.13.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -809,7 +822,7 @@ dependencies = [
  "derive-new",
  "dirs",
  "gix-tempfile",
- "image 0.25.4",
+ "image 0.25.5",
  "r2d2",
  "r2d2_sqlite",
  "rand",
@@ -1941,7 +1954,10 @@ checksum = "96a6ac251f4a2aca6b3f91340350eab87ae57c3f127ffeb585e92bd336717991"
 name = "cv-test"
 version = "0.1.0"
 dependencies = [
+ "image 0.25.5",
+ "lowlight-lib",
  "opencv",
+ "rgb",
 ]
 
 [[package]]
@@ -2379,7 +2395,7 @@ dependencies = [
  "bitflags 2.6.0",
  "fnv",
  "glow",
- "image 0.25.4",
+ "image 0.25.5",
  "imgref",
  "log",
  "lru",
@@ -3420,9 +3436,9 @@ dependencies = [
 
 [[package]]
 name = "image"
-version = "0.25.4"
+version = "0.25.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bc144d44a31d753b02ce64093d532f55ff8dc4ebf2ffb8a63c0dda691385acae"
+checksum = "cd6f44aed642f18953a158afeb30206f4d50da59fbc66ecb53c66488de73563b"
 dependencies = [
  "bytemuck",
  "byteorder-lite",
@@ -3780,6 +3796,21 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b4ce301924b7887e9d637144fdade93f9dfff9b60981d4ac161db09720d39aa5"
 
 [[package]]
+name = "live"
+version = "0.1.0"
+dependencies = [
+ "async-compat",
+ "lowlight-lib",
+ "opencv",
+ "pico-args",
+ "rfd",
+ "slint",
+ "slint-build",
+ "smol",
+ "tokio",
+]
+
+[[package]]
 name = "lock_api"
 version = "0.4.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3815,10 +3846,12 @@ name = "lowlight"
 version = "0.1.0"
 dependencies = [
  "lowlight-lib",
+ "opencv",
  "pico-args",
  "rfd",
  "slint",
  "slint-build",
+ "smol",
  "tokio",
 ]
 
@@ -3829,7 +3862,9 @@ dependencies = [
  "burn",
  "burn-import",
  "dirs",
- "image 0.25.4",
+ "image 0.25.5",
+ "opencv",
+ "rgb",
  "rusqlite",
  "slint",
 ]
@@ -3923,6 +3958,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8ea1f30cedd69f0a2954655f7188c6a834246d2bcf1e315e2ac40c4b24dc9519"
 dependencies = [
  "cfg-if",
+ "rayon",
 ]
 
 [[package]]
@@ -4580,6 +4616,7 @@ dependencies = [
  "once_cell",
  "opencv-binding-generator",
  "pkg-config",
+ "rgb",
  "semver",
  "shlex",
  "vcpkg",
@@ -5150,6 +5187,7 @@ dependencies = [
  "loop9",
  "quick-error",
  "rav1e",
+ "rayon",
  "rgb",
 ]
 
@@ -5881,6 +5919,23 @@ dependencies = [
  "libc",
  "smithay-client-toolkit",
  "wayland-backend",
+]
+
+[[package]]
+name = "smol"
+version = "2.0.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a33bd3e260892199c3ccfc487c88b2da2265080acb316cd920da72fdfd7c599f"
+dependencies = [
+ "async-channel",
+ "async-executor",
+ "async-fs",
+ "async-io",
+ "async-lock",
+ "async-net",
+ "async-process",
+ "blocking",
+ "futures-lite",
 ]
 
 [[package]]
