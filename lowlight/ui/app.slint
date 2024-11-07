@@ -139,14 +139,7 @@ export component App inherits Window {
         x: root.top ? self.width : 0px;
         y: root.video ? self.height : 0px;
         VerticalBox {
-            Button {
-                height: 36px;
-                width: 54px;
-                text: "Back";
-                clicked => {
-                    root.top = !root.top;
-                }
-            }
+
 
             HorizontalBox {
                 Image {
@@ -155,6 +148,14 @@ export component App inherits Window {
 
                 Image {
                     source: root.output_image;
+                }
+            }
+                        Button {
+                height: 36px;
+                width: 54px;
+                text: "Back";
+                clicked => {
+                    root.top = !root.top;
                 }
             }
         }
